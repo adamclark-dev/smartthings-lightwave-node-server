@@ -26,7 +26,9 @@ exports.lwrfToggle = function (toggle, req, res) {
 	var params = getURLParams(req);
 	var lwrf = connectLWRF(params.ip, '', '');
 
-	if (toggle == 1) {
+	if (params.level >= 1) {
+		lwrf.setDeviceDim(params.room, params.device, params.level);
+	}else if (toggle == 1) {
 		lwrf.turnDeviceOn(params.room, params.device);
 	} else {
 		lwrf.turnDeviceOff(params.room, params.device);

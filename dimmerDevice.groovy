@@ -27,24 +27,29 @@ preferences {
 metadata {
 	definition (name: "Lightwave Lights", namespace: "smartthings-users", author: "Adam Clark") {
 		capability "Switch"
+        capability "Switch Level"
         command "register"
 	}
 
 	simulator {}
-
-	tiles {
-    
-		standardTile("switch", "device.switch", width: 2, height: 2, canChangeIcon: true) {
-			state "on", label:'on', action:"on", icon:"st.switches.switch.on", backgroundColor:"#79b821", nextState:"off"
-            state "off", label:'off', action:"off", icon:"st.switches.switch.off", backgroundColor:"#ffffff", nextState:"on"
+       
+    tiles(scale: 2) {
+		multiAttributeTile(name:"switch", type: "lighting", width: 6, height: 4, canChangeIcon: true){
+			tileAttribute ("device.switch", key: "PRIMARY_CONTROL") {
+				attributeState "on", label:'${name}', action:"switch.off", icon:"st.switches.switch.on", backgroundColor:"#79b821", nextState:"off"
+				attributeState "off", label:'${name}', action:"switch.on", icon:"st.switches.switch.off", backgroundColor:"#ffffff", nextState:"On"
+			}
+			tileAttribute ("device.level", key: "SLIDER_CONTROL") {
+				attributeState "level", action:"switch level.setLevel"
+			}
 		}
-        
-        standardTile("register", "device.status", inactiveLabel:false, decoration:"flat") {
+
+        standardTile("register", "device.status", inactiveLabel:false, decoration:"flat",height: 2, width: 2) {
             state "default", label:"Register", icon:"http://www.mocet.com/pic/link-icon.png", action:"register"
         }
-        
-		main(["switch"])
-		details (["switch","register"])
+
+		main "switch"
+		details(["switch", "level","register"])
 	}
 
 }
@@ -58,18 +63,26 @@ def parse(String description) {
 
 // handle commands
 def on() {
-	apiGet('/off')
+	apiGet('/on', 0)
 }
 
 def off() {
-	apiGet('/on')
+	apiGet('/off', 0)
+}
+
+def setLevel(value) {
+	if (value == 0) {
+		off()
+	} else {
+    	apiGet('/on', value)
+    }
 }
 
 def register() {
-	apiGet('/register')
+	apiGet('/register', 0)
 }
 
-private apiGet(path) {
+private apiGet(path, level) {
 
 	log.debug settings.serverIP + ':8000'
 
@@ -83,9 +96,12 @@ private apiGet(path) {
         query: [
         	ip: settings.lightwaveIP,
         	room: settings.roomID, 
-            device: settings.deviceID
+            device: settings.deviceID,
+            level: level
         ]
     ]
+
+	log.debug httpRequest.query
 
     return new physicalgraph.device.HubAction(httpRequest)
 }
