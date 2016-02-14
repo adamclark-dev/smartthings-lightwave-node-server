@@ -25,7 +25,7 @@ preferences {
 }
  
 metadata {
-	definition (name: "Lightwave Lights", namespace: "smartthings-users", author: "Adam Clark") {
+	definition (name: "Lightwave Dimmer Switch", namespace: "smartthings-users", author: "Adam Clark") {
 		capability "Switch"
         capability "Switch Level"
         command "register"

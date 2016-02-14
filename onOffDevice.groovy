@@ -25,7 +25,7 @@ preferences {
 }
  
 metadata {
-    definition (name: "Lightwave Lights", namespace: "smartthings-users", author: "Adam Clark") {
+    definition (name: "Lightwave On Off Device", namespace: "smartthings-users", author: "Adam Clark") {
         capability "Switch"
         command "register"
     }
