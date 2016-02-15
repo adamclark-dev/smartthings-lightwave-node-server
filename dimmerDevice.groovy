@@ -39,8 +39,8 @@ metadata {
 				attributeState "on", label:'${name}', action:"switch.off", icon:"st.switches.switch.on", backgroundColor:"#79b821", nextState:"off"
 				attributeState "off", label:'${name}', action:"switch.on", icon:"st.switches.switch.off", backgroundColor:"#ffffff", nextState:"On"
 			}
-			tileAttribute ("device.level", key: "SLIDER_CONTROL", range:"(5..100)") {
-				attributeState "level", action:"switch level.setLevel"
+			tileAttribute ("device.level", key: "SLIDER_CONTROL") {
+				attributeState "level", action:"switch level.setLevel", range:"(5..100)"
 			}
 		}
 
@@ -73,12 +73,13 @@ def off() {
 }
 
 def setLevel(value) {
-    sendEvent(name: "switch", value: 'on')
 	if (value == 0) {
-		apiGet('/on', 5)
-        sendEvent(name: "level", value: '5')
+		apiGet('/off', 0)
+        sendEvent(name: "switch", value: 'off')
+        sendEvent(name: "level", value: '0')
 	} else {
     	apiGet('/on', value)
+        sendEvent(name: "switch", value: 'on')
         sendEvent(name: "level", value: value)
     }
 }
