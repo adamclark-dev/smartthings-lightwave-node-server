@@ -73,7 +73,7 @@ def off() {
 }
 
 def setLevel(value) {
-	sendEvent(name: "switch", value: 'on')
+    	sendEvent(name: "switch", value: 'on')
 	if (value == 0) {
 		apiGet('/on', 5)
 	} else {
