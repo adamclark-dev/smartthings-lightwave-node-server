@@ -74,14 +74,14 @@ def off() {
 
 def setLevel(value) {
 	if (value == 0) {
+		sendEvent(name: "switch", value: 'off')
+		sendEvent(name: "level", value: '0')
 		apiGet('/off', 0)
-        sendEvent(name: "switch", value: 'off')
-        sendEvent(name: "level", value: '0')
 	} else {
-    	apiGet('/on', value)
-        sendEvent(name: "switch", value: 'on')
-        sendEvent(name: "level", value: value)
-    }
+		sendEvent(name: "switch", value: 'on')
+		sendEvent(name: "level", value: value)
+		apiGet('/on', value)
+    	}
 }
 
 def register() {
