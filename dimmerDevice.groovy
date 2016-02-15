@@ -63,16 +63,19 @@ def parse(String description) {
 
 // handle commands
 def on() {
+	sendEvent(name: "switch", value: 'on')
 	apiGet('/on', 0)
 }
 
 def off() {
+	sendEvent(name: "switch", value: 'off')
 	apiGet('/off', 0)
 }
 
 def setLevel(value) {
+	sendEvent(name: "switch", value: 'on')
 	if (value == 0) {
-		off()
+		apiGet('/on', 5)
 	} else {
     	apiGet('/on', value)
     }
