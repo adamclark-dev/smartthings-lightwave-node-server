@@ -59,10 +59,12 @@ def parse(String description) {
 
 // handle commands
 def on() {
+    sendEvent(name: "switch", value: 'on')
     apiGet('/on', 0)
 }
 
 def off() {
+    sendEvent(name: "switch", value: 'off')
     apiGet('/off', 0)
 }
 
