@@ -1,12 +1,6 @@
 var url = require('url');
 var LightwaveRF = require("./lwrf");
-
-// CREATES THE LIGHWTAVE RF CLIENT
-function connectLWRF (ip) {
-	return new LightwaveRF({
-		ip: ip
-	});
-}
+var lwrf = new LightwaveRF();
 
 // GETS THE URL PARAMS
 function getURLParams (req) {
@@ -24,7 +18,7 @@ function httpResponse (res, response) {
 exports.lwrfToggle = function (toggle, req, res) {
 
 	var params = getURLParams(req);
-	var lwrf = connectLWRF(params.ip, '', '');
+    lwrf.setIP(params.ip);
 
 	if (params.level >= 1) {
 		lwrf.setDeviceDim(params.room, params.device, params.level);
@@ -34,7 +28,7 @@ exports.lwrfToggle = function (toggle, req, res) {
 		lwrf.turnDeviceOff(params.room, params.device);
 	}
 
-	httpResponse(res, 'Request Sent');
+	httpResponse(res, 'Request Received');
 
 };
 
@@ -42,10 +36,10 @@ exports.lwrfToggle = function (toggle, req, res) {
 exports.lwrfRegister = function(req, res) {
 
 	var params = getURLParams(req);
-	var lwrf = connectLWRF(params.ip);
+    lwrf.setIP(params.ip);
 
 	lwrf.register();
 
-	httpResponse(res, 'Request Sent');
+	httpResponse(res, 'Request Received');
 
 };
