@@ -214,6 +214,10 @@ LightwaveRF.prototype.sendUdp = function(message){
 
         sendSocket.send(buffer, 0, buffer.length, 9760, ip);
 
+        if (attemptNumber >= 200) {
+            clearInterval(stateTimer[code]);
+        }
+
         attemptNumber++;
 
     }, 500);
