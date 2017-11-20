@@ -153,6 +153,45 @@ LightwaveRF.prototype.setDeviceDim = function(roomId, deviceId, dimPercentage , 
 };
 
 /**
+ * Stop a relay
+ *
+ * @param integer  roomId   The room ID
+ * @param integer  deviceId The device ID
+ * @param Function callback The callback for if there are any errors
+ *
+ * @return void
+ */
+LightwaveRF.prototype.stopRelay = function(roomId, deviceId, callback) {
+    this.exec("!R" + roomId + "D" + deviceId + "F^", callback);
+};
+
+/**
+ * Open a relay
+ *
+ * @param integer  roomId   The room ID
+ * @param integer  deviceId The device ID
+ * @param Function callback The callback for if there are any errors
+ *
+ * @return void
+ */
+LightwaveRF.prototype.openRelay = function(roomId, deviceId, callback) {
+    this.exec("!R" + roomId + "D" + deviceId + "F(", callback);
+};
+
+/**
+ * Close a relay
+ *
+ * @param integer  roomId   The room ID
+ * @param integer  deviceId The device ID
+ * @param Function callback The callback for if there are any errors
+ *
+ * @return void
+ */
+LightwaveRF.prototype.closeRelay = function(roomId, deviceId, callback) {
+    this.exec("!R" + roomId + "D" + deviceId + "F)", callback);
+};
+
+/**
  * Get message code
  *
  * @return string
