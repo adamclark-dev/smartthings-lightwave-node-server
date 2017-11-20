@@ -7,4 +7,4 @@ If you are having issues setting up then please refer to the smartthings communi
 
 https://community.smartthings.com/t/lightwave-rf-integration-uk/23875/447
 
-If there are issues with the code, then please raise an issue on github.
+If there are issues with the code, then please raise an issue on github. An issue with the code is not that you are incapable of setting it up.
