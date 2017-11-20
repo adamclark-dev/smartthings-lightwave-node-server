@@ -32,6 +32,23 @@ exports.lwrfToggle = function (toggle, req, res) {
 
 };
 
+// RELAY LIGHTWAVE DEVICE
+exports.lwrfRelay = function (state, req, res) {    
+	var params = getURLParams(req);
+    	lwrf.setIP(params.ip);	
+	console.log("Params.IP: " + params.ip);
+	
+	if (state == 0) {
+		lwrf.closeRelay(params.room, params.device);
+	}else if (state == 1) {
+		lwrf.openRelay(params.room, params.device);
+	} else {
+		lwrf.stopRelay(params.room, params.device);
+	}    
+	console.log("\n\LWRF Relay :  Room: " + params.room + " | Device: " + params.device);
+	httpResponse(res, 'Request Received');
+};
+
 // REGISTER THE IP
 exports.lwrfRegister = function(req, res) {
 
