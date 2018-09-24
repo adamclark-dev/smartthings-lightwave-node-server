@@ -32,6 +32,14 @@ router.register('/stop', function(req, res) {
 	helpers.lwrfRelay(2, req, res);
 });
 
+router.register('/', function(req, res) {
+	console.log('Someone connected to server with no paramaters');
+	res.setHeader('Content-Type', 'text/html; charset=utf-8')
+	var message = "You have connected to the smartthings lightwave node server,<br>"+
+	    "There is currently nothing else for you to see here"
+	res.end(message)
+});
+
 var server = http.createServer(function (req, res) {
 	handler = router.route(req);
 	handler.process(req, res);
