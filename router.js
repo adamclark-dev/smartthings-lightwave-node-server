@@ -5,27 +5,25 @@ var handlers = {};
 
 exports.clear = function() {
   handlers = {};
-}
+};
 
 exports.register = function(url, method) {
   handlers[url] = handlerFactory.createHandler(method);
-}
+};
 
 exports.route = function(req) {
-  url = parser.parse(req.url, true);
+  var url = parser.parse(req.url, true);
   var handler = handlers[url.pathname];
-  if (!handler) handler = this.missing(req)
+  if (!handler) handler = this.missing(req);
   return handler;
-}
+};
 
 exports.missing = function(req) {
   var url = parser.parse(req.url, true);
   var path = __dirname + "/public" + url.pathname
   try {    
-    data = fs.readFileSync(path);
-    mime = req.headers.accepts || 'text/html'
-    var urlParts = url.parse(req.url, true);
-    var query = urlParts.query;
+    var data = fs.readFileSync(path);
+    var mime = req.headers.accepts || 'text/html';
     return handlerFactory.createHandler(function(req, res) {
       res.writeHead(200, {'Content-Type': mime});
       res.end(data);
@@ -36,4 +34,4 @@ exports.missing = function(req) {
       res.end("No route registered for " + url.pathname);
     });      
   }  
-}
+};

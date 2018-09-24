@@ -41,7 +41,7 @@ router.register('/', function(req, res) {
 });
 
 var server = http.createServer(function (req, res) {
-	handler = router.route(req);
+	var handler = router.route(req);
 	handler.process(req, res);
 });
 
