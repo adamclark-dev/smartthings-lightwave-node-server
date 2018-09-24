@@ -18,6 +18,7 @@ function LightwaveRF(callback) {
         return new LightwaveRF(config);
     }
     this.timeout = config.timeout || 1000;
+    config.maxattempts = config.maxattempts || 200;
     this.queue = [];
     this.ready = true;
 
@@ -239,6 +240,7 @@ LightwaveRF.prototype.sendUdp = function(message){
     var sendSocket = this.sendSocket;
     var ip = this.config.ip;
     var attemptNumber = 1;
+    var maxattempts = this.config.maxattempts // this.config.maxattempts
 
     this.responseListeners[parseInt(code, 10).toString()] = {
         time: new Date().getTime(),
@@ -249,11 +251,11 @@ LightwaveRF.prototype.sendUdp = function(message){
 
     stateTimer[code] = setInterval(function() {
 
-        console.log("Attempt " + attemptNumber + " - Sending message: " + message);
+        console.log("Attempt " + attemptNumber + " of " + maxattempts + " - Sending message: " + message);
 
         sendSocket.send(buffer, 0, buffer.length, 9760, ip);
 
-        if (attemptNumber >= 200) {
+        if (attemptNumber >= maxattempts) {
             clearInterval(stateTimer[code]);
         }
 
